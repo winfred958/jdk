@@ -806,25 +806,26 @@ public class Collections {
             rotate2(list, distance);
     }
 
-    private static <T> void rotate1(List<T> list, int distance) {
-        int size = list.size();
+    private static <T> void rotate1(final List<T> list, int distance) {
+        final int size = list.size();
         if (size == 0)
             return;
-        distance = distance % size;
+        distance %= size;
         if (distance < 0)
             distance += size;
         if (distance == 0)
             return;
 
-        for (int cycleStart = 0, nMoved = 0; nMoved != size; cycleStart++) {
+        final int bound = size - distance;
+        for (int cycleStart = 0, nMoved = 0; nMoved < size; cycleStart++) {
             T displaced = list.get(cycleStart);
             int i = cycleStart;
             do {
-                i += distance;
-                if (i >= size)
+                if (i >= bound)
                     i -= size;
+                i += distance;
                 displaced = list.set(i, displaced);
-                nMoved ++;
+                nMoved++;
             } while (i != cycleStart);
         }
     }
