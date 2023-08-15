@@ -25,6 +25,8 @@
  * @test
  * @bug 8314236
  * @summary Overflow in Collections.rotate
+ * @requires (sun.arch.data.model == "64" & os.maxMemory >= 16g)
+ * @run main/othervm -Xmx12g RotateHuge
  */
 
 import java.util.ArrayList;
@@ -35,9 +37,11 @@ public class RotateHuge {
 
     public static void main(final String[] args) {
         final int size = (1 << 30) + 1;
-        final List<Byte> list = new ArrayList<>(size);
-        for (int i = 0; i < size; ++i)
-            list.add((byte) 0);
+        final List<Object> list = new ArrayList<>(size);
+        final Object object = new Object();
+        for (int i = 0; i < size; ++i) {
+            list.add(object);
+        }
         Collections.rotate(list, size - 1);
     }
 }
