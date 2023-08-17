@@ -25,23 +25,47 @@
  * @test
  * @bug 8314236
  * @summary Overflow in Collections.rotate
- * @requires (sun.arch.data.model == "64" & os.maxMemory >= 16g)
- * @run main/othervm -Xmx12g RotateHuge
  */
 
-import java.util.ArrayList;
+import java.util.AbstractList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.RandomAccess;
 
 public class RotateHuge {
 
+    private static final class MockList extends AbstractList<Object>
+            implements RandomAccess {
+        private final int size;
+
+        public MockList(final int size) {
+            if (size < 0)
+                throw new IllegalArgumentException("Illegal size: " + size);
+            this.size = size;
+        }
+
+        @Override
+        public Object get(final int index) {
+            Objects.checkIndex(index, size);
+            return null;
+        }
+
+        @Override
+        public Object set(final int index, final Object element) {
+            Objects.checkIndex(index, size);
+            return null;
+        }
+
+        @Override
+        public int size() {
+            return size;
+        }
+    }
+
     public static void main(final String[] args) {
         final int size = (1 << 30) + 1;
-        final List<Object> list = new ArrayList<>(size);
-        final Object object = new Object();
-        for (int i = 0; i < size; ++i) {
-            list.add(object);
-        }
+        final List<Object> list = new MockList(size);
         Collections.rotate(list, size - 1);
     }
 }
