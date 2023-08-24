@@ -64,7 +64,7 @@ public class RotateHuge {
     }
 
     public static void main(final String[] args) {
-        testRotate((1 << 30) + 1, -1);
+        testRotate((1 << 30) + 1, -(1 << 30) - 2);
         testRotate((1 << 30) + 1, 1 << 30);
         testRotate(Integer.MAX_VALUE, Integer.MIN_VALUE);
         testRotate(Integer.MAX_VALUE, Integer.MIN_VALUE + 3);
