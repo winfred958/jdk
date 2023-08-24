@@ -64,8 +64,16 @@ public class RotateHuge {
     }
 
     public static void main(final String[] args) {
-        final int size = (1 << 30) + 1;
+        testRotate((1 << 30) + 1, -1);
+        testRotate((1 << 30) + 1, 1 << 30);
+        testRotate(Integer.MAX_VALUE, Integer.MIN_VALUE);
+        testRotate(Integer.MAX_VALUE, Integer.MIN_VALUE + 3);
+        testRotate(Integer.MAX_VALUE, 2);
+        testRotate(Integer.MAX_VALUE, Integer.MAX_VALUE - 1);
+    }
+
+    private static void testRotate(final int size, final int distance) {
         final List<Object> list = new MockList(size);
-        Collections.rotate(list, size - 1);
+        Collections.rotate(list, distance);
     }
 }
